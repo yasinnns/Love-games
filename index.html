@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<style>
+body {
+  margin:0;
+  background:black;
+  color:white;
+  font-family: 'Courier New', monospace;
+  text-align:center;
+  overflow:hidden;
+}
+
+/* sections */
+.section { display:none; padding-top:25%; }
+.active { display:block; }
+
+/* buttons */
+button {
+  padding:12px 20px;
+  margin:10px;
+  border:none;
+  background:#ff2e63;
+  color:white;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* typing */
+#type { font-size:22px; white-space:pre-line; }
+
+/* floating hearts */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  color: #ff2e63;
+  animation: float 5s linear infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0); opacity:1; }
+  100% { transform: translateY(-800px); opacity:0; }
+}
+
+/* fade */
+.fade { animation: fade 1s; }
+@keyframes fade { from{opacity:0;} to{opacity:1;} }
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgm" loop>
+  <source src="YOUR_MUSIC_LINK" type="audio/mp3">
+</audio>
+
+<!-- INTRO -->
+<div id="s1" class="section active fade">
+  <div id="type"></div>
+  <button onclick="start()">Start ❤️</button>
+</div>
+
+<!-- GAME -->
+<div id="s2" class="section fade">
+  <h2>Mini Love Game 🎮</h2>
+  <p>Choose wisely 😏</p>
+  <button onclick="next('s3')">Start Game</button>
+</div>
+
+<!-- Q1 -->
+<div id="s3" class="section fade">
+  <h3>Do you love me? ❤️</h3>
+  <button onclick="next('s4')">Yes</button>
+  <button id="noBtn">No 😏</button>
+</div>
+
+<!-- Q2 -->
+<div id="s4" class="section fade">
+  <h3>Who is your favorite? 😌</h3>
+  <button onclick="next('s5')">Yasin ❤️</button>
+  <button onclick="next('s5')">Only Yasin 💕</button>
+</div>
+
+<!-- MEMORY -->
+<div id="s5" class="section fade">
+  <h2>Our Moments 💖</h2>
+
+  <img src="https://imgur.com/a/T7SIZ2o" width="150">
+  <img src="https://imgur.com/a/H73Y2Bv" width="150">
+  <img src="https://imgur.com/a/qhWuidu" width="150">
+
+  <p>From strangers to forever...</p>
+
+  <button onclick="next('s6')">Continue ❤️</button>
+</div>
+
+<!-- LOADING -->
+<div id="s6" class="section fade">
+  <h2>Analyzing Love... ❤️</h2>
+  <p id="percent">0%</p>
+</div>
+
+<!-- RESULT -->
+<div id="s7" class="section fade">
+  <h1>100% TRUE LOVE 💘</h1>
+  <p>You are my peace, my happiness, my everything...</p>
+
+  <button onclick="next('s8')">Final Surprise 🎁</button>
+</div>
+
+<!-- FINAL -->
+<div id="s8" class="section fade">
+  <h1>💍 Will You Be Mine Forever?</h1>
+
+  <video width="280" controls>
+    <source src="YOUR_VIDEO_LINK" type="video/mp4">
+  </video>
+
+  <h2>I Love You ❤️</h2>
+</div>
+
+<script>
+function next(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* typing */
+let text = "Hey [HER NAME] ❤️\nI made something special for you...\n— Yasin";
+let i = 0;
+
+function typing(){
+  if(i < text.length){
+    document.getElementById("type").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typing, 50);
+  }
+}
+typing();
+
+/* start music */
+function start(){
+  document.getElementById("bgm").play();
+  next('s2');
+}
+
+/* moving NO button */
+let noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", function(){
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random()*80 + "%";
+  noBtn.style.top = Math.random()*80 + "%";
+});
+
+/* fake loading */
+let p = 0;
+setInterval(()=>{
+  if(p<100){
+    p++;
+    document.getElementById("percent").innerText = p + "%";
+    if(p==100){
+      setTimeout(()=>next('s7'),1000);
+    }
+  }
+},50);
+
+/* hearts */
+setInterval(()=>{
+  let heart = document.createElement("div");
+  heart.innerHTML = "❤️";
+  heart.className = "heart";
+  heart.style.left = Math.random()*100 + "%";
+  document.body.appendChild(heart);
+
+  setTimeout(()=>heart.remove(),5000);
+},300);
+</script>
+
+</body>
+</html>
